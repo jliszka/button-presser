@@ -27,9 +27,33 @@ def wf(frequency):
     samples = 60 * 8000 // frequency
     adj_freq = 60 * 8000 / samples
     samples_per_cycle = 8000 / adj_freq
-    print(frequency, adj_freq, samples)
     waveform = ulab.arange(samples, dtype=ulab.float)
     waveform = waveform * 2 * math.pi / samples_per_cycle
     return ulab.vector.sin(waveform)
 
+def play2(frequency1, frequency2):
+    waveform = wf2(frequency1, frequency2)
+    samples = ulab.array((waveform + 1) * (2 ** 15 - 1), dtype=ulab.uint16)
+    sample = audiocore.RawSample(samples)
+    _audio.play(sample, loop=True)
 
+def wf2(frequency1, frequency2):
+    samples1 = 8000 // frequency1
+    adj_freq1 = 8000 / samples1
+    samples_per_cycle1 = 8000 / adj_freq1
+
+    samples2 = 8000 // frequency2
+    adj_freq2 = 8000 / samples2
+    samples_per_cycle2 = 8000 / adj_freq2
+
+    waveform1 = ulab.arange(samples1, dtype=ulab.float)
+    waveform1 = waveform1 * 2 * math.pi / samples_per_cycle1
+    waveform1 = ulab.vector.sin(waveform1)
+
+    waveform2 = ulab.arange(samples2, dtype=ulab.float)
+    waveform2 = waveform2 * 2 * math.pi / samples_per_cycle2
+    waveform2 = ulab.vector.sin(waveform2)
+
+    wf = ulab.concatenate((waveform1, waveform2))
+
+    return wf
