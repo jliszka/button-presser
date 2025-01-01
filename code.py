@@ -10,13 +10,14 @@ from simon2 import *
 from piano import *
 from song import *
 from lightsout import *
+from tictactoe import *
 
 class Switcher(Game):
     def setup(self):
         self.games = [
-            Easy(), Wally(3), Mara(), Anna(),
-            Memory(), Simon(), Simon2(), Piano(),
-            Song(), Wally(1), LightsOut(),
+            Easy(), Wally(1), Mara(), Anna(),
+            Memory(), Simon(), Simon2(), LightsOut(),
+            Song(), Piano(), TicTacToe(), TicTacToe(True)
         ]
         for i in range(len(self.games)):
             self.pixels[i] = hue(i/8)
